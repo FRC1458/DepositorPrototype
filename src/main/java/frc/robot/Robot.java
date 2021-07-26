@@ -94,7 +94,19 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     //robotDrive.arcadeDrive(leftStick.getY(), -leftStick.getX());
 
-    robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
+    // original tank drive 
+    // robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
+
+    // smarter tank drive combination of arcade and tank
+    // use left stick to control steering
+    // hold the stick forward to go forward and backward to go backward
+    // hold the stick left to turn left sharply and same with right
+    // Letting go of the stick reverts control back to regular tank drive
+    if (leftStick.getX() == 0 && leftStick.getY() == 0)
+      robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
+    else
+      robotDrive.tankDrive(leftstick.getX()*leftstick.getY()*controller.getTriggerAxis(Hand.kLeft), -leftstick.getX()*leftstick.getY()*controller.getTriggerAxis(Hand.kRight));
+    
     if(controller.getBumper(Hand.kLeft)){
       quantumIntake.set(.5);
     }

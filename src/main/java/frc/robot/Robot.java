@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     if (leftStick.getX() == 0 && leftStick.getY() == 0)
       robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
     else
-      robotDrive.tankDrive(leftstick.getX()*leftstick.getY()*controller.getTriggerAxis(Hand.kLeft), -leftstick.getX()*leftstick.getY()*controller.getTriggerAxis(Hand.kRight));
+      robotDrive.tankDrive((leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kLeft), (-leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kRight));
     
     if(controller.getBumper(Hand.kLeft)){
       quantumIntake.set(.5);

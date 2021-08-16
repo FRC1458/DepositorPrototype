@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   private  WPI_TalonSRX elevatorMotorUp;
   private  WPI_TalonSRX elevatorMotorDown;
   private  WPI_TalonSRX feederMotor;
+  private  TalonFX shooter;
 
   private  DifferentialDrive robotDrive;
   // private Servo servo;
@@ -63,9 +65,13 @@ public class Robot extends TimedRobot {
     //solenoid = new Solenoid(0);
     quantumIntake = new WPI_TalonSRX(RobotConstants.quantumIntakeID);
 
+    shooter = new TalonFX(RobotConstants.shooterID);
+
     leftStick = new Joystick(0);
     rightStick = new Joystick(1);
     controller = new XboxController(0);
+    leftTrigger = leftStick.getRawButton(1);
+    rightTrigger = rightStick.getRawButton(1);
     //hand = k;
     //kRight = new Hand();
   }
@@ -95,13 +101,15 @@ public class Robot extends TimedRobot {
     //robotDrive.arcadeDrive(leftStick.getY(), -leftStick.getX());
 
     // original tank drive 
-    // robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
+    robotDrive.tankDrive(leftStick.getY(), rightStick.getY());
 
     // smarter tank drive combination of arcade and tank
     // use left stick to control steering
     // hold the stick forward to go forward and backward to go backward
     // hold the stick left to turn left sharply and same with right
     // Letting go of the stick reverts control back to regular tank drive
+
+    /*
     if (leftStick.getX() == 0 && leftStick.getY() == 0)
       robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
     else
@@ -113,6 +121,8 @@ public class Robot extends TimedRobot {
     else {
       quantumIntake.set(0);
     }
+
+    */
 
     if(controller.getBumper(Hand.kRight)) {
       feederMotor.set(.5);

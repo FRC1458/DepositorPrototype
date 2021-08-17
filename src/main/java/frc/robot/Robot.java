@@ -49,6 +49,11 @@ public class Robot extends TimedRobot {
   //private Hand hand;
   //private Hand kRight;
 
+  private Boolean leftTrigger;
+  private Boolean rightTrigger;
+  private Boolean leftMiddleBottom;
+  private Boolean rightMiddleBottom;
+
   public Robot() {
     super(0.03);
     leftMotor = new WPI_TalonSRX(RobotConstants.leftMotorID);
@@ -72,6 +77,10 @@ public class Robot extends TimedRobot {
     controller = new XboxController(0);
     leftTrigger = leftStick.getRawButton(1);
     rightTrigger = rightStick.getRawButton(1);
+    leftTrigger = leftStick.getRawButton(1);
+    rightTrigger = rightStick.getRawButton(1);
+    leftMiddleBottom = leftStick.getRawButton(2);
+    rightMiddleBottom = rightStick.getRawButton(2);
     //hand = k;
     //kRight = new Hand();
   }
@@ -110,37 +119,40 @@ public class Robot extends TimedRobot {
     // Letting go of the stick reverts control back to regular tank drive
 
     /*
-    if (leftStick.getX() == 0 && leftStick.getY() == 0)
+    if (leftTrigger)
       robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
     else
       robotDrive.tankDrive((leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kLeft), (-leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kRight));
-    
-    if(controller.getBumper(Hand.kLeft)){
-      quantumIntake.set(.5);
-    }
-    else {
-      quantumIntake.set(0);
-    }
-
     */
+    if(rightTrigger)
+      quantumIntake.set(-.2);
+    
+    else 
+      quantumIntake.set(0);
+    
 
-    if(controller.getBumper(Hand.kRight)) {
-      feederMotor.set(.5);
-    }
-    else {
+    if(leftTrigger) 
+      feederMotor.set(-.2);
+    
+    else 
       feederMotor.set(0);
-    }
-    if (leftStick.getY()>0) {
-      elevatorMotorUp.set(1);
-      elevatorMotorDown.set(0);
-    }
-    else if (leftStick.getY()<0) {
-      //elevatorMotorDown.set(1);
-      elevatorMotorUp.set(0);
-    }
-    else {
-      //elevatorMotorDown.set(0);
-      elevatorMotorUp.set(0);
-    }
+    
+    // if (leftStick.getY()>0) {
+    //   elevatorMotorUp.set(1);
+    //   elevatorMotorDown.set(0);
+    // }
+    // else if (leftStick.getY()<0) {
+    //   //elevatorMotorDown.set(1);
+    //   elevatorMotorUp.set(0);
+    // }
+    // else {
+    //   //elevatorMotorDown.set(0);
+    //   elevatorMotorUp.set(0);
+    // }
+
+    if(leftMiddleBottom)
+      shooter.set(0.2);
+    else
+      shooter.set(0);
   }
 }

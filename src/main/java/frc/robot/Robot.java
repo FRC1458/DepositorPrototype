@@ -4,21 +4,17 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.lang.Math;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -104,13 +100,30 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    
+    /*System.out.println("Left Stick X: "+leftStick.getX());
+    System.out.println("Left Stick Y: "+leftStick.getY());
+    System.out.println("Right Stick X: "+rightStick.getX());
+    System.out.println("Right Stick Y: "+rightStick.getY());*/
+    /*System.out.println("Left Trigger: "+leftTrigger);
+    System.out.println("Right Trigger" +rightTrigger);*/
+    /*
+    for (int i = 1; i < 8; i++) {
+      if (leftStick.getRawButton(i))
+        System.out.println("Left Button " + i + " " + leftStick.getRawButton(i));
+    }
+    for (int i = 1; i < 8; i++) {
+      if (rightStick.getRawButton(i))
+        System.out.println("Right Button " + i + " " + rightStick.getRawButton(i));
+    }*/
+    
     // Drive with arcade drive.
     // That means that the Y axis drives forward
     // and backward, and the X turns left and right.
     //robotDrive.arcadeDrive(leftStick.getY(), -leftStick.getX());
 
     // original tank drive 
-    robotDrive.tankDrive(leftStick.getY(), rightStick.getY());
+    robotDrive.tankDrive(-(Math.abs(leftStick.getY())*leftStick.getY()), -(Math.abs(rightStick.getY())*rightStick.getY()));
 
     // smarter tank drive combination of arcade and tank
     // use left stick to control steering
@@ -124,15 +137,15 @@ public class Robot extends TimedRobot {
     else
       robotDrive.tankDrive((leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kLeft), (-leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kRight));
     */
-    if(rightTrigger)
+    if(rightStick.getRawButton(1))
       quantumIntake.set(-.2);
     
     else 
       quantumIntake.set(0);
     
 
-    if(leftTrigger) 
-      feederMotor.set(-.2);
+    if(leftStick.getRawButton(1)) 
+      feederMotor.set(-.5);
     
     else 
       feederMotor.set(0);
@@ -150,9 +163,9 @@ public class Robot extends TimedRobot {
     //   elevatorMotorUp.set(0);
     // }
 
-    if(leftMiddleBottom)
-      shooter.set(0.2);
+    if(rightStick.getRawButton(2))
+      shooter.set(ControlMode.PercentOutput, -1);
     else
-      shooter.set(0);
+      shooter.set(ControlMode.PercentOutput, 0);
   }
 }

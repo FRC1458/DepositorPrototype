@@ -164,7 +164,7 @@ public class Robot extends TimedRobot {
     // }
 
     if(rightStick.getRawButton(2))
-      shooter.set(ControlMode.PercentOutput, -1);
+      shooter.set(ControlMode.PercentOutput, (rightStick.getZ()-1)/2);
     else
       shooter.set(ControlMode.PercentOutput, 0);
   }

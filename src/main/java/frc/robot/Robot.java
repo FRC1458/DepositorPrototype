@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import jdk.nashorn.internal.objects.annotations.SpecializedFunction;
 
 import java.lang.Math;
 
@@ -100,6 +101,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
+    // Control Scheme:
+    // Tank drive: left stick drives left wheels, right stick drives right wheels
+    //   All inputs are squared, numbers close to 0 are reduced
+    // Right trigger runs quantum intake (conveyer belt in center of robot)
+    // Left trigger runs the feeder
+    // Press and hold bottom middle on right stick to run fly wheels
+    // Use left z axis to control fly wheel SpecializedFunction 
+    //   Bottom is 0 and top is full speed
     
     /*System.out.println("Left Stick X: "+leftStick.getX());
     System.out.println("Left Stick Y: "+leftStick.getY());
@@ -164,7 +174,7 @@ public class Robot extends TimedRobot {
     // }
 
     if(rightStick.getRawButton(2))
-      shooter.set(ControlMode.PercentOutput, (rightStick.getZ()-1)/2);
+      shooter.set(ControlMode.PercentOutput, (leftStick.getZ()-1)/2);
     else
       shooter.set(ControlMode.PercentOutput, 0);
   }

@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
   private Boolean rightMiddleBottom;
 
   // private Ultrasonic ballSensor;
+  // private AnalogPotentiometer ballSensor;
 
   public Robot() {
     super(0.03);
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
     //kRight = new Hand();
 
     // ballSensor = new Ultrasonic(ballSensorDIO1, ballSensorDIO2);
+    // ballSensor = new AnalogPotentiometer(ballSensorDIO1,  158, 1);
   }
 
   @Override
@@ -184,5 +186,6 @@ public class Robot extends TimedRobot {
       shooter.set(ControlMode.PercentOutput, 0);
 
     //System.out.println(ballSensor.getInches());
+    // System.out.println(ballSensor.get());
   }
 }

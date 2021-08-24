@@ -51,6 +51,8 @@ public class Robot extends TimedRobot {
   private Boolean leftMiddleBottom;
   private Boolean rightMiddleBottom;
 
+  // private Ultrasonic ballSensor;
+
   public Robot() {
     super(0.03);
     leftMotor = new WPI_TalonSRX(RobotConstants.leftMotorID);
@@ -80,6 +82,8 @@ public class Robot extends TimedRobot {
     rightMiddleBottom = rightStick.getRawButton(2);
     //hand = k;
     //kRight = new Hand();
+
+    // ballSensor = new Ultrasonic(ballSensorDIO1, ballSensorDIO2);
   }
 
   @Override
@@ -97,6 +101,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     // servo.setAngle(0);
     // solenoid.set(false);
+    //ballSensor.setAutomaticMode(true);
   }
 
   @Override
@@ -177,5 +182,7 @@ public class Robot extends TimedRobot {
       shooter.set(ControlMode.PercentOutput, (leftStick.getZ()-1)/2);
     else
       shooter.set(ControlMode.PercentOutput, 0);
+
+    //System.out.println(ballSensor.getInches());
   }
 }

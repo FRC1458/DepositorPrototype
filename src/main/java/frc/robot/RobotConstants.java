@@ -11,6 +11,6 @@ public class RobotConstants {
     public final static int feederMotorID = 18;
     //public final static int armMotorID = 5;
     public final static int shooterID = 1;
-    public final static int ballSensorDIO1 = 1;
-    public final static int ballSensorDIO2 = 2;
+    public final static int pingID = 0;
+    public final static int echoID = 0;
 }

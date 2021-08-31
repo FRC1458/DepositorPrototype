@@ -13,9 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import jdk.nashorn.internal.objects.annotations.SpecializedFunction;
-
-import java.lang.Math;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,6 +49,8 @@ public class Robot extends TimedRobot {
   private Boolean leftMiddleBottom;
   private Boolean rightMiddleBottom;
 
+  private Ultrasonic ultrasonicSensor;
+
   // private Ultrasonic ballSensor;
   // private AnalogPotentiometer ballSensor;
 
@@ -81,6 +81,8 @@ public class Robot extends TimedRobot {
     rightTrigger = rightStick.getRawButton(1);
     leftMiddleBottom = leftStick.getRawButton(2);
     rightMiddleBottom = rightStick.getRawButton(2);
+
+    ultrasonicSensor = new Ultrasonic(RobotConstants.pingID, RobotConstants.echoID);
     //hand = k;
     //kRight = new Hand();
 
@@ -108,52 +110,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
-    // Control Scheme:
-    // Tank drive: left stick drives left wheels, right stick drives right wheels
-    //   All inputs are squared, numbers close to 0 are reduced
-    // Right trigger runs quantum intake (conveyer belt in center of robot)
-    // Left trigger runs the feeder
-    // Press and hold bottom middle on right stick to run fly wheels
-    // Use left z axis to control fly wheel SpecializedFunction 
-    //   Bottom is 0 and top is full speed
-    
-    /*System.out.println("Left Stick X: "+leftStick.getX());
-    System.out.println("Left Stick Y: "+leftStick.getY());
-    System.out.println("Right Stick X: "+rightStick.getX());
-    System.out.println("Right Stick Y: "+rightStick.getY());*/
-    /*System.out.println("Left Trigger: "+leftTrigger);
-    System.out.println("Right Trigger" +rightTrigger);*/
-    /*
-    for (int i = 1; i < 8; i++) {
-      if (leftStick.getRawButton(i))
-        System.out.println("Left Button " + i + " " + leftStick.getRawButton(i));
-    }
-    for (int i = 1; i < 8; i++) {
-      if (rightStick.getRawButton(i))
-        System.out.println("Right Button " + i + " " + rightStick.getRawButton(i));
-    }*/
-    
-    // Drive with arcade drive.
-    // That means that the Y axis drives forward
-    // and backward, and the X turns left and right.
-    //robotDrive.arcadeDrive(leftStick.getY(), -leftStick.getX());
-
-    // original tank drive 
     robotDrive.tankDrive(-(Math.abs(leftStick.getY())*leftStick.getY()), -(Math.abs(rightStick.getY())*rightStick.getY()));
 
-    // smarter tank drive combination of arcade and tank
-    // use left stick to control steering
-    // hold the stick forward to go forward and backward to go backward
-    // hold the stick left to turn left sharply and same with right
-    // Letting go of the stick reverts control back to regular tank drive
-
-    /*
-    if (leftTrigger)
-      robotDrive.tankDrive(controller.getTriggerAxis(Hand.kLeft), controller.getTriggerAxis(Hand.kRight));
-    else
-      robotDrive.tankDrive((leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kLeft), (-leftstick.getX()+leftstick.getY())*controller.getTriggerAxis(Hand.kRight));
-    */
     if(rightStick.getRawButton(1))
       quantumIntake.set(-.2);
     
@@ -185,7 +143,6 @@ public class Robot extends TimedRobot {
     else
       shooter.set(ControlMode.PercentOutput, 0);
 
-    //System.out.println(ballSensor.getInches());
-    // System.out.println(ballSensor.get());
+    System.out.println(ultrasonicSensor.getRangeInches());
   }
 }

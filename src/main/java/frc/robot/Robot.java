@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.Ultrasonic;
+//import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
   private  DifferentialDrive robotDrive;
   // private Servo servo;
   // private Solenoid solenoid;
-  private WPI_TalonSRX quantumIntake;
+  //private WPI_TalonSRX quantumIntake;
 
   private Joystick leftStick;
   private Joystick rightStick;
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   private Boolean leftMiddleBottom;
   private Boolean rightMiddleBottom;
 
-  private Ultrasonic ultrasonicSensor;
+  //private Ultrasonic ultrasonicSensor;
 
   // private Ultrasonic ballSensor;
   // private AnalogPotentiometer ballSensor;
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     robotDrive = new DifferentialDrive(leftMotor, rightMotor);
     //servo = new Servo(0);
     //solenoid = new Solenoid(0);
-    quantumIntake = new WPI_TalonSRX(RobotConstants.quantumIntakeID);
+    //quantumIntake = new WPI_TalonSRX(RobotConstants.quantumIntakeID);
 
     shooter = new TalonFX(RobotConstants.shooterID);
 
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
     leftMiddleBottom = leftStick.getRawButton(2);
     rightMiddleBottom = rightStick.getRawButton(2);
 
-    ultrasonicSensor = new Ultrasonic(RobotConstants.pingID, RobotConstants.echoID);
+    //ultrasonicSensor = new Ultrasonic(RobotConstants.pingID, RobotConstants.echoID);
     //hand = k;
     //kRight = new Hand();
 
@@ -112,11 +112,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     robotDrive.tankDrive(-(Math.abs(leftStick.getY())*leftStick.getY()), -(Math.abs(rightStick.getY())*rightStick.getY()));
 
-    if(rightStick.getRawButton(1))
-      quantumIntake.set(-.2);
+    // if(rightStick.getRawButton(1))
+    //   quantumIntake.set(-.2);
     
-    else 
-      quantumIntake.set(0);
+    // else 
+    //   quantumIntake.set(0);
     
 
     if(leftStick.getRawButton(1)) 
@@ -143,6 +143,6 @@ public class Robot extends TimedRobot {
     else
       shooter.set(ControlMode.PercentOutput, 0);
 
-    System.out.println(ultrasonicSensor.getRangeInches());
+    //System.out.println(ultrasonicSensor.getRangeInches());
   }
 }

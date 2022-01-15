@@ -25,124 +25,50 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Robot extends TimedRobot {
   private  WPI_TalonSRX leftMotor;
   private  WPI_TalonSRX rightMotor;
-  private  WPI_TalonSRX leftMotor2;
-  private  WPI_TalonSRX rightMotor2;
-
-  private  WPI_TalonSRX elevatorMotorUp;
-  private  WPI_TalonSRX elevatorMotorDown;
-  private  WPI_TalonSRX feederMotor;
-  private  TalonFX shooter;
-
-  private  DifferentialDrive robotDrive;
-  // private Servo servo;
-  // private Solenoid solenoid;
-  //private WPI_TalonSRX quantumIntake;
+  private XboxController controller;
 
   private Joystick leftStick;
-  private Joystick rightStick;
-  private XboxController controller;
-  //private Hand hand;
-  //private Hand kRight;
 
-  private Boolean leftTrigger;
-  private Boolean rightTrigger;
-  private Boolean leftMiddleBottom;
-  private Boolean rightMiddleBottom;
-
-  //private Ultrasonic ultrasonicSensor;
-
-  // private Ultrasonic ballSensor;
-  // private AnalogPotentiometer ballSensor;
+  private boolean button1;
+  private boolean button2;
 
   public Robot() {
     super(0.03);
     leftMotor = new WPI_TalonSRX(RobotConstants.leftMotorID);
     rightMotor = new WPI_TalonSRX(RobotConstants.rightMotorID);
-    leftMotor2 = new WPI_TalonSRX(RobotConstants.leftMotor2ID);
-    rightMotor2 = new WPI_TalonSRX(RobotConstants.rightMotor2ID);
-
-    elevatorMotorUp = new WPI_TalonSRX(RobotConstants.elevatorMotorUpID);
-    //elevatorMotorDown = new WPI_TalonSRX(RobotConstants.elevatorMotorDownID);
-    feederMotor = new WPI_TalonSRX(RobotConstants.feederMotorID);
-
-    robotDrive = new DifferentialDrive(leftMotor, rightMotor);
-    //servo = new Servo(0);
-    //solenoid = new Solenoid(0);
-    //quantumIntake = new WPI_TalonSRX(RobotConstants.quantumIntakeID);
-
-    shooter = new TalonFX(RobotConstants.shooterID);
-
-    leftStick = new Joystick(0);
-    rightStick = new Joystick(1);
+    
     controller = new XboxController(0);
-    leftTrigger = leftStick.getRawButton(1);
-    rightTrigger = rightStick.getRawButton(1);
-    leftTrigger = leftStick.getRawButton(1);
-    rightTrigger = rightStick.getRawButton(1);
-    leftMiddleBottom = leftStick.getRawButton(2);
-    rightMiddleBottom = rightStick.getRawButton(2);
-
-    //ultrasonicSensor = new Ultrasonic(RobotConstants.pingID, RobotConstants.echoID);
-    //hand = k;
-    //kRight = new Hand();
-
-    // ballSensor = new Ultrasonic(ballSensorDIO1, ballSensorDIO2);
-    // ballSensor = new AnalogPotentiometer(ballSensorDIO1,  158, 1);
+    button1 = leftStick.getRawButton(1);
+    button2 = leftStick.getRawButton(2);
   }
 
   @Override
   public void robotInit() {
     leftMotor.setNeutralMode(NeutralMode.Brake);
     rightMotor.setNeutralMode(NeutralMode.Brake);
-    leftMotor2.setNeutralMode(NeutralMode.Brake);
-    rightMotor2.setNeutralMode(NeutralMode.Brake);
-
-    leftMotor2.follow(leftMotor);
-    rightMotor2.follow(rightMotor);
   }
 
   @Override
   public void teleopInit() {
-    // servo.setAngle(0);
-    // solenoid.set(false);
-    //ballSensor.setAutomaticMode(true);
+    
   }
 
   @Override
   public void teleopPeriodic() {
-    robotDrive.tankDrive(-(Math.abs(leftStick.getY())*leftStick.getY()), -(Math.abs(rightStick.getY())*rightStick.getY()));
-
-    // if(rightStick.getRawButton(1))
-    //   quantumIntake.set(-.2);
+    button1 = leftStick.getRawButton(1);
+    button2 = leftStick.getRawButton(2);
     
-    // else 
-    //   quantumIntake.set(0);
-    
-
-    if(leftStick.getRawButton(1)) 
-      feederMotor.set(-.5);
-    
-    else 
-      feederMotor.set(0);
-    
-    // if (leftStick.getY()>0) {
-    //   elevatorMotorUp.set(1);
-    //   elevatorMotorDown.set(0);
-    // }
-    // else if (leftStick.getY()<0) {
-    //   //elevatorMotorDown.set(1);
-    //   elevatorMotorUp.set(0);
-    // }
-    // else {
-    //   //elevatorMotorDown.set(0);
-    //   elevatorMotorUp.set(0);
-    // }
-
-    if(rightStick.getRawButton(2))
-      shooter.set(ControlMode.PercentOutput, (leftStick.getZ()-1)/2);
-    else
-      shooter.set(ControlMode.PercentOutput, 0);
-
-    //System.out.println(ultrasonicSensor.getRangeInches());
+    if (controller.getAButton() || button1) {
+      leftMotor.set(0.5);
+      rightMotor.set(-0.5);
+    }
+    else if (controller.getBButton() || button2) {
+      leftMotor.set(-0.5);
+      rightMotor.set(0.5);
+    }
+    else {
+      leftMotor.set(0);
+      rightMotor.set(0);
+    }
   }
 }

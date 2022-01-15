@@ -5,7 +5,7 @@ public class RobotConstants {
     public final static int rightMotorID = 20;
     public final static int leftMotor2ID = 11;
     public final static int rightMotor2ID = 17;
-    public final static int quantumIntakeID = 23;
+    //public final static int quantumIntakeID = 23;
     public final static int elevatorMotorUpID = 19;
     //public final static int elevatorMotorDownID = 0;
     public final static int feederMotorID = 18;

@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     super(0.03);
     leftMotor = new WPI_TalonSRX(RobotConstants.leftMotorID);
     rightMotor = new WPI_TalonSRX(RobotConstants.rightMotorID);
-    
+    leftStick = new Joystick(0);
     controller = new XboxController(0);
     button1 = leftStick.getRawButton(1);
     button2 = leftStick.getRawButton(2);
@@ -44,8 +44,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    leftMotor.setNeutralMode(NeutralMode.Brake);
-    rightMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -59,12 +57,12 @@ public class Robot extends TimedRobot {
     button2 = leftStick.getRawButton(2);
     
     if (controller.getAButton() || button1) {
-      leftMotor.set(0.5);
-      rightMotor.set(-0.5);
+      leftMotor.set(1);
+      rightMotor.set(-1);
     }
     else if (controller.getBButton() || button2) {
-      leftMotor.set(-0.5);
-      rightMotor.set(0.5);
+      leftMotor.set(-0.3);
+      rightMotor.set(0.3);
     }
     else {
       leftMotor.set(0);
